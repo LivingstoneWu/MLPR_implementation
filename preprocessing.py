@@ -1,6 +1,6 @@
 import numpy as np
 
-"""Generate preprocessed input matrix Phi. 
+"""Generate preprocessed input matrix Phi and output vector yy. 
 
 Phi=[phi(xx_i)]
 Generate preprocessed input matrix Phi, with each row containing the result of application of basis functions on the
@@ -22,7 +22,7 @@ corresponding xx sample. Optional with regularization terms.
 """
 
 
-def gen_phi(X, basis_funcs, reg_factor=0):
+def preproc_X(X, basis_funcs, reg_factor=0):
     res = []
     for row in X:
         row_res = []
@@ -34,3 +34,12 @@ def gen_phi(X, basis_funcs, reg_factor=0):
         res = np.concatenate((res, np.identity(res.shape[1])), axis=0)
     return res
 
+"""Preprocess yy vector
+
+"""
+
+
+def preproc_yy(yy, basis_funcs, reg_factor=0):
+    if reg_factor!=0:
+        yy=np.concatenate((yy, np.zeros(len(basis_funcs))))
+    return yy
