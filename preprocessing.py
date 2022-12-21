@@ -35,7 +35,7 @@ def preproc_X(X, basis_funcs=None, reg_factor=0):
         res = np.array(X)
     res = np.concatenate((res, np.ones(res.shape[0])[:, np.newaxis]), axis=-1)
     if reg_factor != 0:
-        res = np.concatenate((res, np.identity(res.shape[1])), axis=0)
+        res = np.concatenate((res, reg_factor*np.identity(res.shape[1])), axis=0)
     return res
 
 
@@ -46,5 +46,5 @@ def preproc_X(X, basis_funcs=None, reg_factor=0):
 
 def preproc_yy(yy, basis_funcs, reg_factor=0):
     if reg_factor != 0:
-        yy = np.concatenate((yy, np.zeros(len(basis_funcs))))
+        yy = np.concatenate((yy, np.zeros(len(basis_funcs)+1)))
     return yy
