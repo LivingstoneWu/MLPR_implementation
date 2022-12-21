@@ -22,17 +22,22 @@ corresponding xx sample. Optional with regularization terms.
 """
 
 
-def preproc_X(X, basis_funcs, reg_factor=0):
-    res = []
-    for row in X:
-        row_res = []
-        for basis_f in basis_funcs:
-            row_res.append(basis_f(row))
-        res.append(row_res)
-    res = np.array(res)
+def preproc_X(X, basis_funcs=None, reg_factor=0):
+    if basis_funcs is not None:
+        res = []
+        for row in X:
+            row_res = []
+            for basis_f in basis_funcs:
+                row_res.append(basis_f(row))
+            res.append(row_res)
+        res = np.array(res)
+    else:
+        res = np.array(X)
+    res = np.stack((res, np.ones(res.shape[0])), axis=-1)
     if reg_factor != 0:
         res = np.concatenate((res, np.identity(res.shape[1])), axis=0)
     return res
+
 
 """Preprocess yy vector
 
@@ -40,6 +45,6 @@ def preproc_X(X, basis_funcs, reg_factor=0):
 
 
 def preproc_yy(yy, basis_funcs, reg_factor=0):
-    if reg_factor!=0:
-        yy=np.concatenate((yy, np.zeros(len(basis_funcs))))
+    if reg_factor != 0:
+        yy = np.concatenate((yy, np.zeros(len(basis_funcs))))
     return yy

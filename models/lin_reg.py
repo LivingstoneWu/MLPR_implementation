@@ -3,11 +3,11 @@ from scipy.optimize import minimize
 import preprocessing
 
 
-def linalg_cost(ww, Phi, yy):
+def linreg_cost(ww, Phi, yy):
     return np.sum((Phi @ ww - yy) ** 2)
 
 
-def linalg_predict(X, ww, basis_funcs):
+def linreg_predict(X, ww, basis_funcs):
     Phi=preprocessing.preproc_X(X, basis_funcs)
     return Phi @ ww
 
@@ -35,4 +35,4 @@ def train(Phi, yy, grad_opt=False):
     if not grad_opt:
         return np.linalg.lstsq(Phi, yy, rcond=None)[0]
     else:
-        return minimize(linalg_cost, np.zeros(Phi.shape[1]),(Phi, yy), "L-BFGS-B", jac=True, options={'maxiter': 500, 'disp': False})
+        return minimize(linreg_cost, np.zeros(Phi.shape[1]),(Phi, yy), "L-BFGS-B", jac=True, options={'maxiter': 500, 'disp': False})
