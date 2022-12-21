@@ -33,7 +33,7 @@ def preproc_X(X, basis_funcs=None, reg_factor=0):
         res = np.array(res)
     else:
         res = np.array(X)
-    res = np.stack((res, np.ones(res.shape[0])), axis=-1)
+    res = np.concatenate((res, np.ones(res.shape[0])[:, np.newaxis]), axis=-1)
     if reg_factor != 0:
         res = np.concatenate((res, np.identity(res.shape[1])), axis=0)
     return res

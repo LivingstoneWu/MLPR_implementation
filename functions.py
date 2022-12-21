@@ -15,5 +15,5 @@ def list_RBFs(ccs, hs):
         raise RuntimeError("RBF list: The list of center locations and hs are expected to have same lengths.")
     RBFs = []
     for i in range(len(ccs)):
-        RBFs.append(lambda xx: RBF(xx, ccs[i], hs[i]))
+        RBFs.append(lambda xx, i=i: RBF(xx, ccs[i], hs[i]))
     return RBFs
