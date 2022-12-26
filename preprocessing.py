@@ -35,7 +35,7 @@ def preproc_X(X, basis_funcs=None, reg_factor=0):
         res = np.array(X)
     res = np.concatenate((res, np.ones(res.shape[0])[:, np.newaxis]), axis=-1)
     if reg_factor != 0:
-        res = np.concatenate((res, reg_factor*np.identity(res.shape[1])), axis=0)
+        res = np.concatenate((res, reg_factor * np.identity(res.shape[1])), axis=0)
     return res
 
 
@@ -46,5 +46,24 @@ def preproc_X(X, basis_funcs=None, reg_factor=0):
 
 def preproc_yy(yy, basis_funcs, reg_factor=0):
     if reg_factor != 0:
-        yy = np.concatenate((yy, np.zeros(len(basis_funcs)+1)))
+        yy = np.concatenate((yy, np.zeros(len(basis_funcs) + 1)))
     return yy
+
+
+"""Divide the dataset by classes
+X: feature matrix
+yy: label vector, containing only positive integers indicating discrete classes
+
+returns:
+vals: sorted list of discrete labels
+res_dict: dictionary containing label: matrix of feature vectors corresponding to the label
+"""
+
+
+def sep_classes(X, yy):
+    idx_sort = np.argsort(yy)
+    vals, idx_start, counts = np.unique(yy[idx_sort], return_index=True, return_counts=True)
+    res_dict = {}
+    for i in range(len(vals)):
+        res_dict[vals[i]] = X[idx_sort[idx_start[i]:idx_start[i] + counts[i]], :]
+    return sorted(vals), res_dict
