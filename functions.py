@@ -42,3 +42,9 @@ def likelihood_mv_gaussian(X, mean, cov, log=True):
         res = 1
         for row in X:
             res *= coe * np.exp(-1 / 2 * ((row - mean).T @ inv @ (row - mean)))
+
+
+def softmax(xx):
+    xx=[math.exp(x) for x in xx]
+    esum=sum(xx)
+    return np.array([x/esum for x in xx])
